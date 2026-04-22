@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Issue / Return Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .card-header {
+            font-weight: bold;
+        }
+        .table-container {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Issue / Return Books</h2>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="row">
+        <!-- Issue Book -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-success text-white">Issue Book</div>
+                <div class="card-body">
+                    <form action="{{ url_for('issue_return_post') }}" method="POST">
+                        <input type="hidden" name="action" value="issue">
+                        <div class="mb-3">
+                            <label for="memberSelect" class="form-label">Select Member</label>
+                            <select name="member_id" id="memberSelect" class="form-select" required>
+                                {% for member in members %}
+                                    <option value="{{ member.member_id }}">{{ member.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="bookSelect" class="form-label">Select Book</label>
+                            <select name="copy_id" id="bookSelect" class="form-select" required>
+                                {% for book in available_books %}
+                                    <option value="{{ book.copy_id }}">{{ book.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Issue Book</button>
+                    </form>
+
+                    <div class="table-container mt-3">
+                        <table class="table table-striped table-bordered table-sm">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Copy ID</th>
+                                    <th>Title</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for book in available_books %}
+                                <tr>
+                                    <td>{{ book.copy_id }}</td>
+                                    <td>{{ book.title }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Return Book -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-warning text-dark">Return Book</div>
+                <div class="card-body">
+                    <form action="{{ url_for('issue_return_post') }}" method="POST">
+                        <input type="hidden" name="action" value="return">
+                        <div class="mb-3">
+                            <label for="memberReturnSelect" class="form-label">Select Member</label>
+                            <select name="member_id" id="memberReturnSelect" class="form-select" required>
+                                {% for member in members %}
+                                    <option value="{{ member.member_id }}">{{ member.name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="issuedBookSelect" class="form-label">Select Book to Return</label>
+                            <input type="number" name="copy_id" class="form-control" placeholder="Enter Copy ID" required>
+                                {% for book in issued_books %}
+                                    <option value="{{ book.copy_id }}">{{ book.title }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <button type="submit" class="btn btn-warning w-100">Return Book</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Member Profile</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+
+    <h2>{{ member.name }}</h2>
+    <p>Email: {{ member.email }}</p>
+    <p>Phone: {{ member.phone }}</p>
+    <p>Address: {{ member.address }}</p>
+
+    <hr>
+
+    <h4>Borrow History</h4>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Book</th>
+                <th>Issue Date</th>
+                <th>Due Date</th>
+                <th>Return Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in transactions %}
+            <tr>
+                <td>{{ row.title }}</td>
+                <td>{{ row.issue_date }}</td>
+                <td>{{ row.due_date }}</td>
+                <td>
+                    {% if row.return_date %}
+                        {{ row.return_date }}
+                    {% else %}
+                        <span class="badge bg-warning">Not Returned</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h4 class="mt-4">Fines</h4>
+    <table class="table table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for fine in fines %}
+            <tr>
+                <td>{{ fine.fine_amount }}</td>
+                <td>
+                    {% if fine.paid_status %}
+                        <span class="badge bg-success">Paid</span>
+                    {% else %}
+                        <span class="badge bg-danger">Unpaid</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+</body>
+</html>

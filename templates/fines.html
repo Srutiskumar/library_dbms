@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bookary — Fines & Fees</title>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+</head>
+<body>
+<aside class="sidebar">
+  <div class="sidebar-logo"><div class="logo-icon"><i class="fa-solid fa-book-open"></i></div> Bookary</div>
+  <div class="nav-section">
+    <div class="nav-label">Main Menu</div>
+    <a class="nav-item" href="dashboard.html"><i class="fa-solid fa-gauge-simple-high"></i> Dashboard</a>
+    <a class="nav-item" href="books.html"><i class="fa-solid fa-books"></i> Books</a>
+    <a class="nav-item" href="members.html"><i class="fa-solid fa-users"></i> Members</a>
+    <a class="nav-item" href="issue.html"><i class="fa-solid fa-calendar-check"></i> Issue / Return</a>
+    <a class="nav-item" href="reservations.html"><i class="fa-solid fa-bookmark"></i> Reservations <span class="nav-badge">4</span></a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">Management</div>
+    <a class="nav-item" href="reports.html"><i class="fa-solid fa-chart-bar"></i> Reports</a>
+    <a class="nav-item active" href="fines.html"><i class="fa-solid fa-coins"></i> Fines &amp; Fees <span class="nav-badge">7</span></a>
+    <a class="nav-item" href="#" onclick="openModal('addBookModal')"><i class="fa-solid fa-circle-plus"></i> Add Book</a>
+    <a class="nav-item" href="#"><i class="fa-solid fa-user-plus"></i> Add Member</a>
+  </div>
+  <div class="nav-section">
+    <div class="nav-label">System</div>
+    <a class="nav-item" href="#"><i class="fa-solid fa-gear"></i> Settings</a>
+    <a class="nav-item" href="#"><i class="fa-solid fa-right-from-bracket"></i> Log Out</a>
+  </div>
+  <div class="sidebar-footer">
+    <div class="user-row"><div class="avatar">JW</div>
+      <div class="user-info"><div class="user-name">James William</div><div class="user-role">Administrator</div></div>
+    </div>
+  </div>
+</aside>
+
+<div class="main">
+  <div class="topbar">
+    <div class="page-heading"><h1>Fines &amp; Fees</h1><p>Track and manage overdue fines, lost and damaged charges</p></div>
+    <div class="topbar-right">
+      <button class="icon-btn"><i class="fa-solid fa-bell"></i></button>
+      <button class="btn btn-ghost"><i class="fa-solid fa-download"></i> Export</button>
+      <button class="btn btn-primary" onclick="openModal('collectFineModal')"><i class="fa-solid fa-hand-holding-dollar"></i> Collect Fine</button>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:22px;">
+      <div class="stat-card red"><div class="stat-icon"><i class="fa-solid fa-circle-exclamation"></i></div><div class="stat-label">Total Pending</div><div class="stat-value">₹1,840</div><div class="stat-sub">From 28 members</div></div>
+      <div class="stat-card green"><div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div><div class="stat-label">Collected (Month)</div><div class="stat-value">₹4,180</div><div class="stat-sub"><span class="up">↑ ₹420</span> vs last month</div></div>
+      <div class="stat-card amber"><div class="stat-icon"><i class="fa-solid fa-triangle-exclamation"></i></div><div class="stat-label">Overdue Members</div><div class="stat-value">37</div><div class="stat-sub">With unpaid fines</div></div>
+      <div class="stat-card blue"><div class="stat-icon"><i class="fa-solid fa-ban"></i></div><div class="stat-label">Waived (Month)</div><div class="stat-value">₹400</div><div class="stat-sub">6 waivers granted</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"><i class="fa-solid fa-coins"></i> Fines Ledger</div>
+      </div>
+      <div class="card-body">
+        <div class="toolbar">
+          <div class="search-box">
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <input type="text" placeholder="Search member or book…" id="fineSearch" oninput="tableSearch('fineSearch','finesTable')"/>
+          </div>
+          <select class="filter-select"><option>All Status</option><option>Pending</option><option>Paid</option><option>Waived</option></select>
+          <select class="filter-select"><option>All Reasons</option><option>Overdue</option><option>Lost</option><option>Damaged</option></select>
+          <div class="tab-row">
+            <button class="tab-btn active">All</button>
+            <button class="tab-btn">This Week</button>
+            <button class="tab-btn">This Month</button>
+          </div>
+        </div>
+      </div>
+      <div class="table-wrap">
+        <table id="finesTable">
+          <thead>
+            <tr>
+              <th>Fine ID</th><th>Member</th><th>Book</th><th>Issue Date</th>
+              <th>Due Date</th><th>Return Date</th><th>Days Overdue</th>
+              <th>Rate/Day</th><th>Fine Amount</th><th>Reason</th>
+              <th>Status</th><th>Paid On</th><th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="color:var(--text-muted);font-size:.74rem">FN-087</td>
+              <td><div style="font-weight:500">Arun Krishnan</div><div style="font-size:.7rem;color:var(--text-muted)">#1001</div></td>
+              <td>War and Peace</td><td>05 Mar</td><td>19 Mar</td><td>—</td>
+              <td style="color:var(--danger);font-weight:700">22 days</td>
+              <td>₹2/day</td>
+              <td style="font-weight:700;font-size:.9rem">₹44</td>
+              <td><span class="badge badge-amber">Overdue</span></td>
+              <td><span class="badge badge-red">Pending</span></td>
+              <td style="color:var(--text-muted)">—</td>
+              <td>
+                <div class="action-btns">
+                  <button class="action-btn" style="color:var(--success);border-color:var(--success)" title="Mark Paid" onclick="openModal('collectFineModal')"><i class="fa-solid fa-check"></i></button>
+                  <button class="action-btn" title="Waive Fine"><i class="fa-solid fa-ban"></i></button>
+                </div>
+              </td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);font-size:.74rem">FN-086</td>
+              <td><div style="font-weight:500">Rahul Menon</div><div style="font-size:.7rem;color:var(--text-muted)">#1012</div></td>
+              <td>Don Quixote</td><td>04 Mar</td><td>18 Mar</td><td>27 Mar</td>
+              <td style="color:var(--danger);font-weight:700">9 days</td>
+              <td>₹2/day</td>
+              <td style="font-weight:700;font-size:.9rem">₹18</td>
+              <td><span class="badge badge-amber">Overdue</span></td>
+              <td><span class="badge badge-green">Paid</span></td>
+              <td style="color:var(--text-muted)">27 Mar</td>
+              <td><div class="action-btns"><button class="action-btn" title="Receipt"><i class="fa-solid fa-receipt"></i></button></div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);font-size:.74rem">FN-085</td>
+              <td><div style="font-weight:500">Divya Kumar</div><div style="font-size:.7rem;color:var(--text-muted)">#1198</div></td>
+              <td>The Witcher</td><td>10 Feb</td><td>24 Feb</td><td>20 Mar</td>
+              <td style="color:var(--danger);font-weight:700">24 days</td>
+              <td>₹2/day</td>
+              <td style="font-weight:700;font-size:.9rem">₹150</td>
+              <td><span class="badge badge-red">Damaged</span></td>
+              <td><span class="badge badge-red">Pending</span></td>
+              <td style="color:var(--text-muted)">—</td>
+              <td><div class="action-btns"><button class="action-btn" style="color:var(--success);border-color:var(--success)" onclick="openModal('collectFineModal')"><i class="fa-solid fa-check"></i></button><button class="action-btn"><i class="fa-solid fa-ban"></i></button></div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);font-size:.74rem">FN-084</td>
+              <td><div style="font-weight:500">Sneha Pillai</div><div style="font-size:.7rem;color:var(--text-muted)">#2083</div></td>
+              <td>Harry Potter</td><td>01 Feb</td><td>15 Feb</td><td>—</td>
+              <td>—</td><td>—</td>
+              <td style="font-weight:700;font-size:.9rem">₹200</td>
+              <td><span class="badge badge-red">Lost</span></td>
+              <td><span class="badge badge-gray">Waived</span></td>
+              <td style="color:var(--text-muted)">—</td>
+              <td><div class="action-btns"><button class="action-btn"><i class="fa-solid fa-eye"></i></button></div></td>
+            </tr>
+            <tr>
+              <td style="color:var(--text-muted);font-size:.74rem">FN-083</td>
+              <td><div style="font-weight:500">Vinod Rajan</div><div style="font-size:.7rem;color:var(--text-muted)">#1405</div></td>
+              <td>The Alchemist</td><td>16 Mar</td><td>30 Mar</td><td>25 Mar</td>
+              <td style="color:var(--warning);font-weight:700">—</td>
+              <td>₹2/day</td>
+              <td style="font-weight:700;font-size:.9rem">₹12</td>
+              <td><span class="badge badge-amber">Overdue</span></td>
+              <td><span class="badge badge-green">Paid</span></td>
+              <td style="color:var(--text-muted)">25 Mar</td>
+              <td><div class="action-btns"><button class="action-btn" title="Receipt"><i class="fa-solid fa-receipt"></i></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span>Showing <strong>5</strong> of 87 fines</span>
+        <div class="page-btns">
+          <button class="page-btn active">1</button><button class="page-btn">2</button>
+          <button class="page-btn">3</button><button class="page-btn">…</button><button class="page-btn">9</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COLLECT FINE MODAL -->
+<div class="modal-overlay" id="collectFineModal">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Collect Fine Payment</div>
+      <button class="modal-close" onclick="closeModal('collectFineModal')"><i class="fa-solid fa-xmark"></i></button>
+    </div>
+    <div class="modal-body">
+      <div style="background:var(--bg);border-radius:var(--radius-sm);padding:14px;margin-bottom:16px;">
+        <div style="font-size:.72rem;color:var(--text-muted);margin-bottom:4px">Fine Details</div>
+        <div style="font-weight:600">Arun Krishnan — War and Peace</div>
+        <div style="font-size:.78rem;color:var(--text-muted)">22 days overdue · Fine ID: FN-087</div>
+        <div style="font-family:var(--font-display);font-size:1.8rem;color:var(--danger);margin-top:8px">₹44.00</div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Payment Method</label>
+        <select class="form-control">
+          <option>Cash</option><option>UPI</option><option>Card</option><option>Bank Transfer</option>
+        </select>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Amount Received</label>
+          <input class="form-control" type="number" value="44" placeholder="₹0.00"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Date</label>
+          <input class="form-control" type="date"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Notes (Optional)</label>
+        <textarea class="form-control" rows="2" placeholder="Any notes…"></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeModal('collectFineModal')">Cancel</button>
+      <button class="btn btn-primary"><i class="fa-solid fa-check"></i> Confirm Payment</button>
+    </div>
+  </div>
+</div>
+
+<script src="../js/sidebar.js"></script>
+</body>
+</html>

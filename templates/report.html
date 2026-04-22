@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .table-container {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Library Reports</h2>
+    <a href="{{ url_for('dashboard') }}" class="btn btn-secondary">Back</a>
+
+    <div class="row mt-4">
+
+    <!-- Issued Today -->
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm text-center">
+            <h5>Books Issued Today</h5>
+            <h2>{{ issued_today }}</h2>
+        </div>
+    </div>
+
+    <!-- Returned Today -->
+    <div class="col-md-6">
+        <div class="card p-4 shadow-sm text-center">
+            <h5>Books Returned Today</h5>
+            <h2>{{ returned_today }}</h2>
+        </div>
+    </div>
+
+</div>
+
+    <!-- Tabs -->
+    <ul class="nav nav-tabs" id="reportTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="daily-tab" data-bs-toggle="tab" data-bs-target="#daily" type="button" role="tab">Daily</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="weekly-tab" data-bs-toggle="tab" data-bs-target="#weekly" type="button" role="tab">Weekly</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="overdue-tab" data-bs-toggle="tab" data-bs-target="#overdue" type="button" role="tab">Overdue & Fines</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="longoverdue-tab" data-bs-toggle="tab" data-bs-target="#longoverdue" type="button" role="tab">30+ Days Overdue</button>
+        </li>
+    </ul>
+
+    <div class="tab-content mt-3" id="reportTabsContent">
+        <!-- Daily Report -->
+        <div class="tab-pane fade show active" id="daily" role="tabpanel">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Member</th>
+                            <th>Book</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in daily_report %}
+                        <tr>
+                            <td>{{ row.transaction_id }}</td>
+                            <td>{{ row.member_name }}</td>
+                            <td>{{ row.book_title }}</td>
+                            <td>{{ row.date }}</td>
+                            <td>{{ row.action }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Weekly Report -->
+        <div class="tab-pane fade" id="weekly" role="tabpanel">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Member</th>
+                            <th>Book</th>
+                            <th>Date</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in weekly_report %}
+                        <tr>
+                            <td>{{ row.transaction_id }}</td>
+                            <td>{{ row.member_name }}</td>
+                            <td>{{ row.book_title }}</td>
+                            <td>{{ row.date }}</td>
+                            <td>{{ row.action }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Overdue & Fines -->
+        <div class="tab-pane fade" id="overdue" role="tabpanel">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Member</th>
+                            <th>Book</th>
+                            <th>Due Date</th>
+                            <th>Days Overdue</th>
+                            <th>Fine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in overdue_report %}
+                        <tr>
+                            <td>{{ row.member_name }}</td>
+                            <td>{{ row.book_title }}</td>
+                            <td>{{ row.due_date }}</td>
+                            <td>{{ row.days_overdue }}</td>
+                            <td>{{ row.fine }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 30+ Days Overdue -->
+        <div class="tab-pane fade" id="longoverdue" role="tabpanel">
+            <div class="table-container">
+                <table class="table table-striped table-bordered table-sm">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Member</th>
+                            <th>Book</th>
+                            <th>Due Date</th>
+                            <th>Days Overdue</th>
+                            <th>Fine</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in long_overdue_report %}
+                        <tr>
+                            <td>{{ row.member_name }}</td>
+                            <td>{{ row.book_title }}</td>
+                            <td>{{ row.due_date }}</td>
+                            <td>{{ row.days_overdue }}</td>
+                            <td>{{ row.fine }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

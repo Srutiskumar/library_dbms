@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .container {
+            width: 350px;
+            padding: 30px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.162);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgb(255, 129, 129);
+            text-align: center;
+            color: white;
+        }
+
+        body {
+            height: 100vh;
+            background:url("{{ url_for('static', filename='books.jpg')}}") no-repeat center center fixed ;
+            background-size: cover;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        
+
+        h2 {
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .input-box {
+            position: relative;
+            margin: 15px 0;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 40px 12px 15px;
+            border-radius: 25px;
+            border: none;
+            outline: none;
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        input::placeholder {
+            color: #ddd;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin: 10px 0;
+        }
+
+        .options a {
+            color: #ddd;
+            text-decoration: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            border-radius: 25px;
+            border: none;
+            margin-top: 10px;
+            background: white;
+            color: #4b2c7a;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #eee;
+        }
+
+        .register {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .register a {
+            color: white;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+    <div class="text-center mb-4">
+        <h2>Login</h2>
+
+        <form method="POST" action="/login">
+            <div class="input-box">
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+
+            <div class="input-box">
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <button type="submit">Login</button>
+        </form>
+
+    </div>
+    </div>
+</body>
+</html>
